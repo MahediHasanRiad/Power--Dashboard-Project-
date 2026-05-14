@@ -3,12 +3,15 @@ import { DashboardMenuButton } from "./components/menu";
 import NavbarField from "./components/nav";
 import {
   BookText,
+  FileText,
   Flag,
   LayoutGrid,
   MessagesSquare,
   Settings,
+  UserCircle,
   UserPen,
 } from "lucide-react";
+import { DashboardDropdownMenu } from "./components/drop-down-menu";
 
 function MainLayout({ children }: { children: ReactNode }) {
   return (
@@ -29,10 +32,19 @@ function MainLayout({ children }: { children: ReactNode }) {
             Icon={MessagesSquare}
             text="Messenger Overside"
           />
-          <DashboardMenuButton Icon={Settings} text="Setting" />
+          <DashboardDropdownMenu
+            Icon={Settings}
+            text="Setting"
+            subItems={[
+              { text: "User Reports", Icon: UserCircle },
+              { text: "System Logs", Icon: FileText },
+            ]}
+          />
         </section>
 
-        <section className="col-span-6 md:col-span-5 bg-secondary-bg-0 p-2 md:pl-8">{children}</section>
+        <section className="col-span-6 md:col-span-5 bg-secondary-bg-0 p-2 md:pl-8">
+          {children}
+        </section>
       </section>
     </section>
   );
