@@ -2,7 +2,7 @@ import type { UserType } from "../user-manager.page";
 
 export function UserTable({ users }: { users: UserType[] }) {
   return (
-    <div className="w-full bg-card-bg-0 rounded-xl overflow-hidden">
+    <div className="w-full bg-card-bg-0 rounded-xl overflow-x-auto md:overflow-visible mt-4">
       <table className="w-full text-left border-collapse">
         <thead>
           <tr className="border-b border-[#1A1A1A]">

@@ -12,7 +12,7 @@ export function FilterBtn({ filter, setActiveFilter, activeFilter }: FilterBtnPr
         h-10 md:h-12 
         px-4 md:px-6 
         text-xs md:text-sm 
-        mx-2
+        mx-1
         
         rounded-xl font-semibold transition-all flex-shrink-0
         
