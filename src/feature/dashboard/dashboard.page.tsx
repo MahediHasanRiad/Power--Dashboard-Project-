@@ -12,7 +12,7 @@ function DashboardPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading, isError, data } = useSelector((state: RootState) => state.dashboard);
   const {growth} = useSelector((state: RootState) => state.dashboard )
-console.log('growth', growth)
+
   useEffect(() => {
     (async () => {
       await dispatch(adminStatusThunk()).unwrap();

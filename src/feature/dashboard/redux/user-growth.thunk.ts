@@ -11,8 +11,8 @@ export const userGrowthThunk = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-console.log('res', response.data)
-      return response.data
+
+      return response.data.data
     } 
     catch (error: unknown) {
       if (axios.isAxiosError(error)) {
