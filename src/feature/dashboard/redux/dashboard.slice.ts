@@ -1,19 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { adminStatusThunk } from "./admin-status.thunk";
+import { userGrowthThunk } from "./user-growth.thunk";
 
-// interface statusType {
-//   total_users: number,
-//   active_users: number,
-//   pending_users: number,
-//   total_growth_pct: number,
-//   active_growth_pct: number,
-//   pending_growth_pct: number
-// }
+interface statusType {
+  data: {
+    total_users: number | string;
+    active_users: number | string;
+    pending_users: number | string;
+    total_growth_pct: number | string;
+    active_growth_pct: number | string;
+    pending_growth_pct: number | string;
+  } | null;
+  growth: {
+    label: string;
+    count: number;
+  }[] | null;
+  isLoading: boolean;
+  isError: any;
+}
 
-const initialState = {
+const initialState: statusType = {
   data: null,
+  growth: null,
   isLoading: false,
-  isError: null as any | null,
+  isError: null,
 };
 
 export const dashboardSlice = createSlice({
@@ -28,12 +38,28 @@ export const dashboardSlice = createSlice({
         state.isError = null;
       })
       .addCase(adminStatusThunk.fulfilled, (state, action) => {
-        state.data = action.payload.data;
+        state.data = action.payload;
         state.isError = null;
         state.isLoading = false;
       })
       .addCase(adminStatusThunk.rejected, (state, action) => {
         state.isError = action.payload as unknown | null;
+        state.isLoading = false;
+      });
+
+    // user growth
+    builder
+      .addCase(userGrowthThunk.pending, (state) => {
+        state.isLoading = true;
+        state.isError = null;
+      })
+      .addCase(userGrowthThunk.fulfilled, (state, action) => {
+        state.growth = action.payload;
+        state.isError = null;
+        state.isLoading = false;
+      })
+      .addCase(userGrowthThunk.rejected, (state, action) => {
+        state.isError = action.payload;
         state.isLoading = false;
       });
   },

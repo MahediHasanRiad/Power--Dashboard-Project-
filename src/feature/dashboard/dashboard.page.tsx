@@ -6,14 +6,17 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store/store";
 import { adminStatusThunk } from "./redux/admin-status.thunk";
+import { userGrowthThunk } from "./redux/user-growth.thunk";
 
 function DashboardPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading, isError, data } = useSelector((state: RootState) => state.dashboard);
-
+  const {growth} = useSelector((state: RootState) => state.dashboard )
+console.log('growth', growth)
   useEffect(() => {
     (async () => {
       await dispatch(adminStatusThunk()).unwrap();
+      await dispatch(userGrowthThunk()).unwrap();
     })();
   }, []);
 
@@ -55,27 +58,27 @@ function DashboardPage() {
         <DashboardStatsCard
           title="Total Users"
           Icon={Users}
-          users={"12.4"}
-          data={"14.2"}
+          data={data?.total_users.toString() ?? '0'}
+          ranking={data?.total_growth_pct.toString() ?? '0'}
         />
         <DashboardStatsCard
           title="Active Listening"
           Icon={List}
-          users={"8.2"}
-          data={"14.2"}
+          data={data?.active_users.toString() ?? '0'}
+          ranking={data?.active_growth_pct.toString() ?? '0'}
         />
         <DashboardStatsCard
           title="Pending Disputes"
           Icon={TriangleAlert}
-          users={"12.4"}
-          data={"14.2"}
+          data={data?.pending_users.toString() ?? '0'}
+          ranking={data?.pending_growth_pct.toString() ?? '0'}
           down={true}
         />
       </section>
 
       {/* user growth  */}
       <section>
-        <UserGrowthChart />
+        <UserGrowthChart growth={growth} />
       </section>
     </section>
   );

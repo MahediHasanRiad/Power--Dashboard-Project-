@@ -37,7 +37,8 @@ export default function LoginPage() {
   const handleLoginSubmit = async () => {
     try {
       console.log(formData)
-      await dispatch(authThunk(formData)).unwrap()
+      const {access_token} = await dispatch(authThunk(formData)).unwrap()
+      localStorage.setItem('access-token', access_token);
       window.location.href = "/";
       
     } catch (error) {

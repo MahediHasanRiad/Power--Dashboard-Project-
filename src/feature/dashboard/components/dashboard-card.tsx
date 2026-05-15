@@ -2,8 +2,8 @@ import { TrendingDown, TrendingUp, type LucideIcon } from "lucide-react";
 
 interface StatusType {
   title: string;
-  users: string;
   data: string;
+  ranking: string;
   Icon: LucideIcon;
   down?: boolean;
 }
@@ -11,8 +11,8 @@ interface StatusType {
 export function DashboardStatsCard({
   title,
   Icon,
-  users,
   data,
+  ranking,
   down = false,
 }: StatusType) {
   return (
@@ -30,21 +30,21 @@ export function DashboardStatsCard({
         </div>
 
         {/* Main Statistic */}
-        <h2 className="text-white text-4xl font-bold mt-2">{users}</h2>
+        <h2 className="text-white text-4xl font-bold mt-2">{data}</h2>
 
         {/* Growth Indicator */}
         {down == false ? (
           <div className="flex items-center gap-1.5 mt-4">
             <TrendingUp className="text-success-0 size-4" />
             <span className="text-success-0 text-sm font-semibold">
-              +{data}%
+              +{ranking}%
             </span>
           </div>
         ) : (
           <div className="flex items-center gap-1.5 mt-4">
             <TrendingDown className="text-fail-0 size-4" />
             <span className="text-fail-0 text-sm font-semibold">
-              +{data}%
+              +{ranking}%
             </span>
           </div>
         )}

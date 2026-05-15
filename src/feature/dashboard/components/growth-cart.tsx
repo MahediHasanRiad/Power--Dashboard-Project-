@@ -31,7 +31,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function UserGrowthChart() {
+export function UserGrowthChart(growth) {
   return (
     <Card className="bg-card-bg-0 border-none text-white">
       <CardHeader className="flex flex-row items-start justify-between">
