@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store/store";
 import { adminStatusThunk } from "./redux/admin-status.thunk";
 import { userGrowthThunk } from "./redux/user-growth.thunk";
+import { Loading } from "@/shared/isLoading";
+import Error from "@/shared/isError";
 
 function DashboardPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,25 +24,13 @@ function DashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-card-bg-0">
-        <h1 className="text-[#D4A017] animate-pulse font-bold">
-          Loading Dashboard...
-        </h1>
-      </div>
+      <Loading />
     );
   }
 
   if (isError) {
     return (
-      <div className="p-10 bg-red-900/20 text-red-500 rounded-lg">
-        <p>Error loading dashboard: {isError}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="underline mt-2"
-        >
-          Retry
-        </button>
-      </div>
+      <Error isError={isError} />
     );
   }
 

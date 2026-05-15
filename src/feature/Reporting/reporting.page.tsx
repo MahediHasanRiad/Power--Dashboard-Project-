@@ -1,3 +1,10 @@
+import type { AppDispatch, RootState } from "@/store/store";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userReportThunk } from "./redux/user-report.thunk";
+import { Loading } from "@/shared/isLoading";
+import Error from "@/shared/isError";
+
 const reports = [
   {
     id: "#UR-9421",
@@ -46,6 +53,30 @@ const STATUS_STYLES: Record<string, { dot: string; label: string }> = {
 };
 
 export function UserReports() {
+
+  const dispatch = useDispatch<AppDispatch>()
+  const {isLoading, isError, data} = useSelector((state: RootState) => state.userReport)
+  
+console.log('get data', data)
+
+  useEffect(() => {
+    ;(async () => {
+      await dispatch(userReportThunk()).unwrap()
+    })()
+  }, [])
+
+   if (isLoading) {
+      return (
+        <Loading />
+      );
+    }
+  
+    if (isError) {
+      return (
+        <Error isError={isError} />
+      );
+    }
+
   return (
     <section className="w-full p-8 font-sans">
       {/* Header */}
@@ -64,11 +95,6 @@ export function UserReports() {
         <button className="text-[#D4A017] text-xs font-bold uppercase tracking-widest pb-4 border-b-2 border-[#D4A017]">
           User Reports
         </button>
-        <div className="flex items-center gap-2 pb-4 cursor-pointer group">
-          <span className="text-[#A3A3A3] text-xs font-bold uppercase tracking-widest group-hover:text-white transition-colors">
-            App
-          </span>
-        </div>
       </div>
 
       {/* Main Table */}
