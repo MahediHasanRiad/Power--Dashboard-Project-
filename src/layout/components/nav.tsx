@@ -1,37 +1,41 @@
-import { Bell, Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 
-function NavbarField() {
+function NavbarField({ onMenuClick }: { onMenuClick: () => void }) {
   return (
-    <nav className="grid grid-cols-6 items-center px-8 py-4 bg-primary-bg-0 gap-6">
-      {/* Logo Section - Takes up 1 column */}
-      <div className="col-span-1">
-        <div>
-          <img className="w-50" src="/logo.png" alt="MAKTech Logo" />
-        </div>
-        <div className="md:hidden">
-          <span><Menu /></span>
-            <span><X /></span>
+    <nav className="grid grid-cols-6 items-center px-4 md:px-8 py-4 bg-primary-bg-0 gap-4 border-b border-gray-800">
+      
+      {/* Logo & Mobile Toggle Section */}
+      <div className="col-span-3 md:col-span-1 flex items-center gap-4">
+        <button 
+          onClick={onMenuClick}
+          aria-label="Open navigation menu"
+          className="md:hidden p-2 text-gray-400 hover:text-[#D4A017] transition-colors"
+        >
+          <Menu className="size-6" />
+        </button>
+
+        {/* Logo */}
+        <div className="flex-shrink-0">
+          <img className="w-32 md:w-40" src="../../../public/logo.png" alt="MAKTech Logo" />
         </div>
       </div>
 
+      {/* Spacer (Hidden on mobile to keep profile on the right) */}
+      <div className="hidden md:block md:col-span-4" />
 
-      <div className="col-span-4" />
-      <div className="col-span-1 flex items-center justify-end space-x-6">
-        {/* Notification Bell */}
-        <div className="relative cursor-pointer hover:opacity-80 transition-opacity">
-          <Bell size={24} className="text-gray-300" />
-          <span className="absolute -top-0.5 -right-0.5 block h-2.5 w-2.5 rounded-full bg-orange-500 ring-2 ring-[#0D0D0D]" />
-        </div>
-
-        {/* Profile Image */}
+      {/* Profile Section  */}
+      <div className="col-span-3 md:col-span-1 flex items-center justify-end">
         <div className="relative group cursor-pointer">
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-700 group-hover:border-gray-500 transition-colors">
+          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-700 group-hover:border-[#D4A017] transition-colors">
             <img
-              src="/riad.jpg"
-              alt="Profile"
+              src="../../../public/riad.jpg"
+              alt="User Profile"
               className="w-full h-full object-cover"
             />
           </div>
+          
+          {/* Optional: Small status dot to match your "Live" indicator style */}
+          <span className="absolute bottom-0 right-0 size-3 bg-[#10B981] border-2 border-primary-bg-0 rounded-full"></span>
         </div>
       </div>
     </nav>

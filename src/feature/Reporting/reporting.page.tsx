@@ -90,7 +90,7 @@ export function UserReports() {
             </tr>
           </thead>
           {/* all data with mapping  */}
-          <tbody className="divide-y divide-[#1A1A1A]">
+          <tbody className="divide-y divide-card-bg-0">
             {reports.map((report) => {
               const reasonClass=
                 REASON_STYLES[report.reason] || REASON_STYLES.default;
