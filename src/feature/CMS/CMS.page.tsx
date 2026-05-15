@@ -6,6 +6,9 @@ import ContentEditor from "./components/ContentEditor";
 
 
 function CMSpage() {
+
+  
+
   return (
     <section className="">
       {/* top part  */}
