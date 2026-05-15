@@ -22,27 +22,41 @@
 }
 
 
-.jodit-dark-custom .jodit-container {
+/* Container cleaning */
+.jodit-custom-wrapper .jodit-container {
   border: none !important;
   background-color: transparent !important;
 }
 
-.jodit-dark-custom .jodit-toolbar__box {
+/* Toolbar styling to match #111111 */
+.jodit-custom-wrapper .jodit-toolbar__box {
   background-color: transparent !important;
   border-bottom: 1px solid #1A1A1A !important;
-  padding: 0 1rem 1rem 1rem !important;
-  margin-bottom: 1rem !important;
+  padding-bottom: 10px !important;
+  margin-bottom: 10px !important;
 }
 
-.jodit-dark-custom .jodit-toolbar-button__icon {
-  filter: grayscale(1) invert(0.5) !important;
+/* Make the icons muted gray like the screenshot */
+.jodit-custom-wrapper .jodit-toolbar-button__icon {
+  filter: grayscale(1) opacity(0.6);
+  transition: all 0.2s;
 }
 
-.jodit-dark-custom .jodit-workplace {
-  background-color: #0D0D0D !important; /* Document Area */
+.jodit-custom-wrapper .jodit-toolbar-button:hover .jodit-toolbar-button__icon {
+  filter: grayscale(0) opacity(1);
+}
+
+/* The actual writing area */
+.jodit-custom-wrapper .jodit-workplace {
+  background-color: #0D0D0D !important; /* Document area background */
   border-radius: 12px !important;
-  padding: 2rem !important;
   border: 1px solid #1A1A1A !important;
+  padding: 20px !important;
+}
+
+/* Hide the bottom status bar for a cleaner look */
+.jodit-custom-wrapper .jodit-status-bar {
+  display: none !important;
 }
 
 

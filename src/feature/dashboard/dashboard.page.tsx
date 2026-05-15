@@ -2,8 +2,13 @@ import { List, TriangleAlert, Users } from "lucide-react";
 import { DashboardStatsCard } from "./components/dashboard-card";
 import { UserGrowthChart } from "./components/growth-cart";
 import TopbarPart from "./components/top-bar-part";
+import axios from 'axios';
 
-function DashboardPage() {
+async function DashboardPage() {
+
+  // const data = await axios.get('/api/reports')
+  // console.log('data', data)
+
   return (
     <section>
       {/* top part  */}

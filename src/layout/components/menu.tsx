@@ -7,7 +7,7 @@ interface MenuType {
   pageLink: string;
 }
 
-export function DashboardMenuButton({ Icon, text, pageLink }: MenuType) {
+export function DashboardMenuButton({ Icon, text, pageLink, }: MenuType) {
   return (
     <NavLink to={`/${pageLink}`} className="w-full pr-12 pl-6 block group">
       {({ isActive }) => (
