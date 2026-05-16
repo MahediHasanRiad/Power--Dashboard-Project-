@@ -51,6 +51,7 @@ export function UpdateProfile() {
     const errorMessage = typeof error === "string" 
       ? error 
       : error?.message || "Failed to update profile info.";
+
     toast.error(errorMessage);
   }
 };
