@@ -67,5 +67,4 @@ export const dashboardSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {} = dashboardSlice.actions;
-
 export default dashboardSlice.reducer;

@@ -1,6 +1,12 @@
+import { useEffect } from "react";
 import TopbarPart from "../dashboard/components/top-bar-part";
 import { SearchFilterBar } from "./components/filter-section";
 import { UserTable } from "./components/user-table";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/store/store";
+import { userManagerThunk } from "./redux/user-manager.thunk";
+import { Loading } from "@/shared/isLoading";
+import Error from "@/shared/isError";
 
 export interface UserType {
   id: string;
@@ -53,6 +59,23 @@ const users: UserType[] = [
 ];
 
 function UserManagerPage() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { isError, isLoading, data } = useSelector((state: RootState) => state.userManager);
+console.log('user-manager', data)
+  useEffect(() => {
+    (async () => {
+      await dispatch(userManagerThunk()).unwrap();
+    })();
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <Error isError={isError} />;
+  }
+
   return (
     <section>
       {/* Top part  */}
@@ -66,7 +89,7 @@ function UserManagerPage() {
       <SearchFilterBar />
 
       {/* user data table  */}
-      <UserTable users={users} />
+      <UserTable users={data!} />
     </section>
   );
 }

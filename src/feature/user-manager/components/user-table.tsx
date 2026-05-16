@@ -1,11 +1,16 @@
-import type { UserType } from "../user-manager.page";
+import type { UserType } from "../redux/user-manager.slice";
+import { StatusBadgeField } from "./statusBadge";
 
 export function UserTable({ users }: { users: UserType[] }) {
+  const safeUsers = users ?? [];
+
+  console.log('bbbb', users);
+  
   return (
     <div className="w-full bg-card-bg-0 rounded-xl overflow-x-auto md:overflow-visible mt-4">
       <table className="w-full text-left border-collapse">
         <thead>
-          <tr className="border-b border-[#1A1A1A]">
+          <tr className="border-b border-card-bg-0">
             <th className="p-6 text-[10px] font-bold tracking-[0.2em] text-[#525252] uppercase">
               User
             </th>
@@ -26,8 +31,8 @@ export function UserTable({ users }: { users: UserType[] }) {
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#1A1A1A] overflow-scroll">
-          {users.map((user) => (
+        <tbody className="divide-y divide-[#1A1A1A]">
+          {safeUsers.map((user) => (
             <tr
               key={user.id}
               className="hover:bg-[#111111b4] transition-colors group"
@@ -36,13 +41,13 @@ export function UserTable({ users }: { users: UserType[] }) {
               <td className="p-6">
                 <div className="flex items-center gap-4">
                   <img
-                    src={user.img}
+                    src={user.profile_image}
                     alt=""
                     className="size-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all"
                   />
                   <div>
                     <p className="text-white font-bold text-lg leading-tight">
-                      {user.name}
+                      {user.fullname}
                     </p>
                     <p className="text-[#525252] text-xs font-mono uppercase mt-1">
                       ID: {user.id}
@@ -57,23 +62,23 @@ export function UserTable({ users }: { users: UserType[] }) {
               {/* Role Column */}
               <td className="p-6 text-center">
                 <span className="px-4 py-1.5 rounded-full bg-[#1A1A1A] text-[#A3A3A3] text-xs font-semibold border border-[#262626]">
-                  {user.role}
+                  {user.roles}
                 </span>
               </td>
 
               {/* Status Column */}
               <td className="p-6">
                 <div className="flex justify-center">
-                  <StatusBadge status={user.status} />
+                  <StatusBadgeField status={user.accountStatus} />
                 </div>
               </td>
 
               {/* Trust Column */}
               <td className="p-6 text-center">
                 <span
-                  className={`text-2xl font-bold ${user.trust < 20 ? "text-[#F87171]" : "text-white"}`}
+                  className={`text-2xl font-bold ${user.latitude < 20 ? "text-[#F87171]" : "text-white"}`}
                 >
-                  {user.trust}
+                  {user.latitude}
                 </span>
               </td>
 
@@ -83,26 +88,6 @@ export function UserTable({ users }: { users: UserType[] }) {
           ))}
         </tbody>
       </table>
-    </div>
-  );
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const styles: Record<string, string> = {
-    VERIFIED:
-      "bg-[#2C2616] text-[#D4A017] border-[#D4A017]/30 shadow-[0_0_8px_rgba(212,160,23,0.1)]",
-    PENDING: "bg-[#1A1A1A] text-[#A3A3A3] border-[#262626]",
-    REJECTED: "bg-[#2A1A1A] text-[#F87171] border-[#F87171]/30",
-  };
-
-  return (
-    <div
-      className={`flex items-center gap-2 px-3 py-1 rounded-full border text-[10px] font-bold tracking-wider ${styles[status]}`}
-    >
-      <div
-        className={`size-1.5 rounded-full ${status === "VERIFIED" ? "bg-[#D4A017]" : status === "REJECTED" ? "bg-[#F87171]" : "bg-[#A3A3A3]"}`}
-      />
-      {status}
     </div>
   );
 }
