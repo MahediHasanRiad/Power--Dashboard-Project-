@@ -1,11 +1,12 @@
-import type { UserType } from "../redux/user-manager.slice";
+import type { getAllUserType } from "../redux/user-manager.slice";
 import { ActionBtn } from "./action-btn";
 import { StatusBadgeField } from "./statusBadge";
 
-export function UserTable({ users }: { users: UserType[] }) {
-  const safeUsers = users ?? [];
-  const status = ["ACTIVE", "PENDING", "REJECTED"];
+export function UserTable({ users }: { users: getAllUserType | null }){
 
+  const status = ["ACTIVE", "PENDING", "REJECTED"];
+  const userList = users?.users ?? [];
+console.log('t', users)
   return (
     <div className="w-full bg-card-bg-0 rounded-xl overflow-x-auto md:overflow-visible mt-4">
       <table className="w-full text-left border-collapse">
@@ -32,7 +33,7 @@ export function UserTable({ users }: { users: UserType[] }) {
           </tr>
         </thead>
         <tbody className="divide-y divide-[#1A1A1A]">
-          {safeUsers.map((user) => (
+          {userList?.map((user) => (
             <tr
               key={user.id}
               className="hover:bg-[#111111b4] transition-colors group"
@@ -78,7 +79,7 @@ export function UserTable({ users }: { users: UserType[] }) {
                 <span
                   className={`text-2xl font-bold ${user.latitude < 20 ? "text-[#F87171]" : "text-white"}`}
                 >
-                  {user.latitude}
+                  {user.trust_score}
                 </span>
               </td>
 

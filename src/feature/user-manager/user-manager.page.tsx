@@ -5,6 +5,7 @@ import { UserTable } from "./components/user-table";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store/store";
 import { userManagerThunk, type roleType } from "./redux/user-manager.thunk";
+import { PaginationField } from "@/shared/pagination";
 
 export interface UserType {
   id: string;
@@ -18,9 +19,26 @@ export interface UserType {
 
 function UserManagerPage() {
   const [role, setRole] = useState<roleType>("ALL");
-
-  const { isLoading, data } = useSelector((state: RootState) => state.userManager);
+  const { isLoading, data } = useSelector(
+    (state: RootState) => state.userManager,
+  );
   const dispatch = useDispatch<AppDispatch>();
+
+  //====================== pagination start ========================
+
+  // pagination
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  useEffect(() => {
+    dispatch(userManagerThunk(role));
+  }, [role, currentPage, dispatch]);
+
+  const totalPages = data ? Math.ceil(data.total / data.page_size) : 0;
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  //=================== pagination end ================================
 
   // console.log("user-manager", data);
 
@@ -33,7 +51,7 @@ function UserManagerPage() {
   };
 
   // loading
-  if(isLoading) <div>Loading...</div>
+  if (isLoading) <div>Loading...</div>;
   return (
     <section>
       {/* Top part  */}
@@ -47,7 +65,14 @@ function UserManagerPage() {
       <SearchFilterBar setRoleHandler={setRoleHandler} />
 
       {/* user data table  */}
-      <UserTable users={data!} />
+      <UserTable users={data ?? null} />
+
+      {/* pagination  */}
+      <PaginationField 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </section>
   );
 }

@@ -28,13 +28,13 @@ export function CMSCard({
 
   return (
     <section className="mx-4 cursor-pointer" onClick={sendData}>
-      <div className="relative bg-card-bg-0 rounded-2xl p-4 w-full max-w-xs overflow-hidden">
+      <div className="relative bg-card-bg-0 rounded-2xl p-4 w-full md:max-w-xs overflow-hidden">
         {title === currentPage && (
           <div className="absolute left-0 top-3 bottom-3 w-1 bg-secondary-0 rounded-r-full" />
         )}
 
         <div className="flex flex-col gap-1 pl-2">
-          <h3 className="text-white text-xl md:text-md sm:text-sm font-bold tracking-tight">
+          <h3 className="text-white text-sm lg:text-xl md:text-md sm:text-sm font-bold tracking-tight">
             {title}
           </h3>
         </div>

@@ -8,12 +8,23 @@ export type UserType = {
   email: string;
   isVerified: boolean;
   accountStatus: "PENDING" | "ACTIVE" | "REJECTED";
-  roles: "Courier" | "Buyer" | "Provider" | "Seller";
+  roles: "ALL" | "USER" | "SELLER" | "SERVICE_PROVIDER";
   displayname: string;
   bio: string;
   longitude: number;
   latitude: number;
   profile_image: string;
+  is_online: boolean;
+  raw_score: number;
+  trust_score: number;
+
+};
+
+export type getAllUserType = {
+  page: number;
+  page_size: number;
+  total: number;
+  users: UserType[] | null;
 };
 
 type statusType = {
@@ -22,7 +33,7 @@ type statusType = {
 };
 
 export type userManagerType = {
-  data: UserType[] | null;
+  data: getAllUserType  | null;
   accountStatus: statusType;
   isLoading: boolean;
   isError: any;
