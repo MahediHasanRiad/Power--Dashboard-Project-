@@ -1,15 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const userManagerThunk = createAsyncThunk('userManager/filter', async (_, {rejectWithValue}) => {
+export type roleType = "ALL" | "ADMIN" | "USER" | "SELLER" | "Courier" | "SERVICE_PROVIDER"
+
+export const userManagerThunk = createAsyncThunk('userManager/filter', async (role: roleType, {rejectWithValue}) => {
   try {
     const token = localStorage.getItem("access-token");
-    const response = await axios.get('/api/admin/users', {
+    const response = await axios.get(`/api/admin/users?role=${role}`, {
       headers: {
           Authorization: `Bearer ${token}`,
         },
     })
-console.log('res', response.data)
     return response.data
   } 
   catch (error: unknown) {

@@ -1,11 +1,11 @@
 import type { UserType } from "../redux/user-manager.slice";
+import { ActionBtn } from "./action-btn";
 import { StatusBadgeField } from "./statusBadge";
 
 export function UserTable({ users }: { users: UserType[] }) {
   const safeUsers = users ?? [];
+  const status = ["ACTIVE", "PENDING", "REJECTED"];
 
-  console.log('bbbb', users);
-  
   return (
     <div className="w-full bg-card-bg-0 rounded-xl overflow-x-auto md:overflow-visible mt-4">
       <table className="w-full text-left border-collapse">
@@ -41,7 +41,7 @@ export function UserTable({ users }: { users: UserType[] }) {
               <td className="p-6">
                 <div className="flex items-center gap-4">
                   <img
-                    src={user.profile_image}
+                    src={user.profile_image ?? "../../../../public/profile.png"}
                     alt=""
                     className="size-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all"
                   />
@@ -61,7 +61,7 @@ export function UserTable({ users }: { users: UserType[] }) {
 
               {/* Role Column */}
               <td className="p-6 text-center">
-                <span className="px-4 py-1.5 rounded-full bg-[#1A1A1A] text-[#A3A3A3] text-xs font-semibold border border-[#262626]">
+                <span className="px-4 py-1.5 rounded-full bg-card-bg-0 text-[#A3A3A3] text-xs font-semibold border border-[#262626]">
                   {user.roles}
                 </span>
               </td>
@@ -83,7 +83,13 @@ export function UserTable({ users }: { users: UserType[] }) {
               </td>
 
               {/* Actions placeholder */}
-              <td className="p-6" />
+              <td>
+                <ActionBtn
+                  userId={user.id}
+                  status={status}
+                  initialUserStatus={user.accountStatus}
+                />
+              </td>
             </tr>
           ))}
         </tbody>
