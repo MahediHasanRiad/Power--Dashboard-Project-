@@ -1,16 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import type { CMSPageType } from "../cms-type";
+
+
+
+interface cmsThunkType {
+  id: string;
+  title: CMSPageType;
+  content: string;
+}
 
 export const cmsThunk = createAsyncThunk(
   "cms/create",
-  async (content: string, { rejectWithValue }) => {
+  async ({ id, title, content }: cmsThunkType, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("access-token");
-      console.log("Sending:", { content });
-      const response = await axios.post(
-        "/api/settings/",
+      console.log("Sending:", { id, title, content });
+
+      const response = await axios.put(
+        `/api/settings/${id}`,
         {
-          title: "TERMS_CONDITION",
+          title: title,
           content: content,
         },
         {
