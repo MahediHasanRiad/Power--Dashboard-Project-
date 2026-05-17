@@ -1,12 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import type { roleType } from "../user-management-type";
 
-export type roleType = "ALL" | "ADMIN" | "USER" | "SELLER" | "Courier" | "SERVICE_PROVIDER"
 
-export const userManagerThunk = createAsyncThunk('userManager/filter', async (role: roleType, {rejectWithValue}) => {
+
+export type userManagerThunkType = {
+  role: roleType;
+  page: number;
+  page_size: number
+} 
+
+export const userManagerThunk = createAsyncThunk('userManager/filter', async ({role, page, page_size}: userManagerThunkType, {rejectWithValue}) => {
   try {
     const token = localStorage.getItem("access-token");
-    const response = await axios.get(`/api/admin/users?role=${role}`, {
+    const response = await axios.get(`/api/admin/users?role=${role}&page=${page}&page_size=${page_size}`, {
       headers: {
           Authorization: `Bearer ${token}`,
         },

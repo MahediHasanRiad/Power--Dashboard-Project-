@@ -4,18 +4,13 @@ import { SearchFilterBar } from "./components/filter-section";
 import { UserTable } from "./components/user-table";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store/store";
-import { userManagerThunk, type roleType } from "./redux/user-manager.thunk";
+import { userManagerThunk } from "./redux/user-manager.thunk";
 import { PaginationField } from "@/shared/pagination";
-
-export interface UserType {
-  id: string;
-  name: string;
-  email: string;
-  role: "ALL" | "ADMIN" | "USER" | "SELLER" | "Courier" | "SERVICE_PROVIDER";
-  status: "VERIFIED" | "PENDING" | "REJECTED";
-  trust: number;
-  img: string;
-}
+import {
+  initialPaginationValue,
+  type paginationType,
+  type roleType,
+} from "./user-management-type";
 
 function UserManagerPage() {
   const [role, setRole] = useState<roleType>("ALL");
@@ -27,24 +22,30 @@ function UserManagerPage() {
   //====================== pagination start ========================
 
   // pagination
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<paginationType>(
+    initialPaginationValue,
+  );
+
   useEffect(() => {
-    dispatch(userManagerThunk(role));
+    dispatch(
+      userManagerThunk({
+        role: role,
+        page: currentPage.page,
+        page_size: currentPage.page_size,
+      }),
+    );
   }, [role, currentPage, dispatch]);
 
   const totalPages = data ? Math.ceil(data.total / data.page_size) : 0;
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    setCurrentPage((prev) => ({
+      ...prev,
+      page: page,
+    }));
   };
 
   //=================== pagination end ================================
-
-  // console.log("user-manager", data);
-
-  useEffect(() => {
-    dispatch(userManagerThunk(role));
-  }, [role, dispatch]);
 
   const setRoleHandler = (selectedRole: roleType) => {
     setRole(selectedRole);
@@ -52,6 +53,8 @@ function UserManagerPage() {
 
   // loading
   if (isLoading) <div>Loading...</div>;
+
+  
   return (
     <section>
       {/* Top part  */}
@@ -68,8 +71,8 @@ function UserManagerPage() {
       <UserTable users={data ?? null} />
 
       {/* pagination  */}
-      <PaginationField 
-        currentPage={currentPage}
+      <PaginationField
+        currentPage={currentPage.page}
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />

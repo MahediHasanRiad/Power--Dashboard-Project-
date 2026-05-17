@@ -10,16 +10,14 @@ import { toast } from "sonner";
 const initialState: getInitialDataType = {
   id: "0",
   title: "TERMS_CONDITION",
-  content: ""
+  content: "",
 };
 
 function CMSpage() {
 
   // cash data
   const [currentPage, setCurrentPage] = useState<getInitialDataType>(initialState);
-  const { data, isError, isLoading } = useSelector(
-    (state: RootState) => state.cms,
-  );
+  const { data, isError, isLoading } = useSelector((state: RootState) => state.cms,);
   const dispatch = useDispatch<AppDispatch>();
 
   const currentPageHandler = (data: getInitialDataType) => {
@@ -37,8 +35,8 @@ function CMSpage() {
     })();
   }, []);
 
-  if(isError) (<div>{isError}</div>)
-  if(isLoading) (<div>Loading...</div>)
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>{isError}</div>;
 
   return (
     <section className="">
@@ -53,20 +51,25 @@ function CMSpage() {
 
         {/* Cards Grid */}
         <div className="md:col-span-12 lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          { Array.isArray(data) && data?.map((info) => (
-            <CMSCard
-              key={info.id}
-              title={info.title}
-              currentPage={currentPage.title}
-              currentPageHandler={currentPageHandler}
-            />
-          ))}
+          {Array.isArray(data) &&
+            data?.map((info) => (
+              <CMSCard
+                key={info.id}
+                title={info.title}
+                currentPage={currentPage.title}
+                currentPageHandler={currentPageHandler}
+              />
+            ))}
         </div>
       </section>
 
       {/* content body  */}
       <section>
-        <ContentEditor id={currentPage.id} title={currentPage.title} contentData={currentPage.content} />
+        <ContentEditor
+          id={currentPage.id}
+          title={currentPage.title}
+          contentData={currentPage.content}
+        />
       </section>
     </section>
   );

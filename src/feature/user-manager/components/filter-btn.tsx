@@ -1,8 +1,10 @@
-import type { roleType } from "../redux/user-manager.thunk";
+import type { roleType } from "../user-management-type";
+
+
 
 interface FilterBtnProps {
-  filter: roleType; // Updated from string to roleType
-  activeFilter: roleType; // Updated from string to roleType
+  filter: roleType; 
+  activeFilter: roleType;
   setActiveFilter: (filter: roleType) => void;
   setRoleHandler: (filter: roleType) => void;
 }

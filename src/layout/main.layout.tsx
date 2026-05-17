@@ -13,7 +13,11 @@ import {
 } from "lucide-react";
 import { DashboardDropdownMenu } from "./components/drop-down-menu";
 
-function MainLayout({ children }: { children: ReactNode }) {
+interface MainLayoutProps {
+  children: ReactNode;
+}
+
+function MainLayout({ children }: MainLayoutProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
 

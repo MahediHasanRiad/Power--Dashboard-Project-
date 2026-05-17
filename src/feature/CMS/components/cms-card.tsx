@@ -34,7 +34,7 @@ export function CMSCard({
         )}
 
         <div className="flex flex-col gap-1 pl-2">
-          <h3 className="text-white text-sm lg:text-xl md:text-md sm:text-sm font-bold tracking-tight">
+          <h3 className="text-white text-sm md:text-md sm:text-sm font-bold tracking-tight">
             {title}
           </h3>
         </div>
