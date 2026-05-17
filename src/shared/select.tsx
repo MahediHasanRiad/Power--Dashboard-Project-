@@ -9,15 +9,16 @@ import {
 import type { FAQType } from "@/feature/FAQ/FAQ.page";
 
 interface SelectType {
-    selectHandler: (data: FAQType) => void
+    selectHandler: (data: FAQType) => void;
+    defaultValue: FAQType
 }
 
-export function SelectField({selectHandler} : SelectType) {
+export function SelectField({selectHandler, defaultValue} : SelectType) {
   return (
     <div className="space-y-2" >
       <Label htmlFor="username-select">Category</Label>
       
-      <Select name="username" defaultValue="@peduarte" onValueChange={(value) => selectHandler(value as FAQType)}>
+      <Select name="username" defaultValue={defaultValue} onValueChange={(value) => selectHandler(value as FAQType)}>
         <SelectTrigger 
           id="username-select" 
           className="w-full bg-transparent border-gray-800 text-black focus:ring-secondary/50"

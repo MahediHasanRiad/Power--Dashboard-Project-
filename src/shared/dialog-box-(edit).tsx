@@ -14,30 +14,39 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SelectField } from "./select";
 import type { FAQType } from "@/feature/FAQ/FAQ.page";
-import { useState, type ChangeEvent, type FormEvent } from "react";
-import { toast } from "sonner";
-import { useDispatch } from "react-redux";
+import { useState, type ChangeEvent } from "react";
 import type { AppDispatch } from "@/store/store";
-import { createFAQthunk } from "@/feature/FAQ/redux/create-FAQ.thunk";
+import { useDispatch } from "react-redux";
+import { UpdateFAQThunk } from "@/feature/FAQ/redux/update-FAQ.thunk";
+import { toast } from "sonner";
 
-export interface CreateFAQInitialValueType {
+
+export interface EditFAQInitialValueType {
+  id: number;
   question: string;
   answer: string;
   category: FAQType;
-  getId?: number | null,
-  text?: string
+  getId?: number | null;
+  text?: string;
 }
 
-const initialValue: CreateFAQInitialValueType  = {
+const initialValue: EditFAQInitialValueType = {
+  id: 0,
   question: "",
   answer: "",
   category: "Buying",
 };
 
-export function DialogBoxField({ question, answer, category, text = 'ADD' }: CreateFAQInitialValueType) {
-
-  const [inputValue, setInputValue] = useState(initialValue);
-  const dispatch =  useDispatch<AppDispatch>()
+export function EditDialogBoxField({
+  id,
+  question,
+  answer,
+  category,
+  text = "ADD",
+}: EditFAQInitialValueType) {
+    
+  const [inputValue, setInputValue] = useState<EditFAQInitialValueType>(initialValue);
+  const dispatch = useDispatch<AppDispatch>();
 
   const selectHandler = (categoryValue: FAQType) => {
     setInputValue((prev) => ({
@@ -54,27 +63,26 @@ export function DialogBoxField({ question, answer, category, text = 'ADD' }: Cre
     }));
   };
 
-  // submit handler
-  const createSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  // ------------------ submit handler update FAQ -----------------------
+  const editSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     try {
-      await dispatch(createFAQthunk(inputValue))
-      toast.success('Successfully create an FAQ !!!')
-    } catch (error) {
-      toast.error('Failed to create FAQ !!!')
+      await dispatch(UpdateFAQThunk({id: Number(id), inputValue })).unwrap();
+      toast.success("Successfully update FAQ !!!");
+      setInputValue(initialValue);
+    } 
+    catch (error) {
+      toast.error("Failed to update FAQ !!!");
     }
-    
-    
-    setInputValue(initialValue);
-    console.log("Submitting final data object:", inputValue);
   };
+  // ------------------ submit handler update FAQ -----------------------
 
   return (
     <Dialog>
-      <form id="faq-creation-form" onSubmit={createSubmitHandler}>
+      <form id="faq-edit-form" onSubmit={editSubmitHandler}>
         <DialogTrigger asChild>
-          <Button variant="outline">{text}</Button>
+          <Button variant="custom">{text}</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
@@ -103,15 +111,18 @@ export function DialogBoxField({ question, answer, category, text = 'ADD' }: Cre
               />
             </Field>
             <Field>
-              <SelectField selectHandler={selectHandler} defaultValue={category} />
+              <SelectField
+                selectHandler={selectHandler}
+                defaultValue={category}
+              />
             </Field>
           </FieldGroup>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit" variant="outline" form="faq-creation-form">
-              {text == 'Edit' ? 'Save' : 'Create' }
+            <Button type="submit" form="faq-edit-form">
+              {text == "Edit" ? "Save" : "Create"}
             </Button>
           </DialogFooter>
         </DialogContent>

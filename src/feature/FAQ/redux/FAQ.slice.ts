@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GetAllFAQThunk } from "./get-all-faq-data.thunk";
 import type { FAQType } from "../FAQ.page";
+import { DeleteFAQThunk } from "./delete-FAQ.thunk";
+import { createFAQthunk } from "./create-FAQ.thunk";
+import { UpdateFAQThunk } from "./update-FAQ.thunk";
 
 export interface FaqItemType {
-  id: string;
+  id: number;
   question: string;
   answer: string;
   category: FAQType;
@@ -26,7 +29,6 @@ const FAQSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-
     // get all FAQ data
     builder
       .addCase(GetAllFAQThunk.pending, (state) => {
@@ -41,10 +43,38 @@ const FAQSlice = createSlice({
       .addCase(GetAllFAQThunk.rejected, (state, action) => {
         state.isError = action.payload;
         state.isLoading = false;
-      });
+      })
 
-    // create FAQ
-    
+      // HANDLE CREATE RE-COMPOUND LOCALLY:
+      .addCase(createFAQthunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        
+        // Take your existing array, append the newly created item returned from your backend API,
+        // and fall back to a safe empty array if 'state.data' was somehow uninitialized.
+        state.data = [...(state.data ?? []), action.payload];
+      })
+
+      // 🚀 HANDLE UPDATE RE-COMPOUND LOCALLY:
+      .addCase(UpdateFAQThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        
+        const updatedItem = action.payload; 
+
+        // Go through the current data list array. 
+        // If the ID matches, swap it with the new updated item. Otherwise, keep the item as-is.
+        state.data = (state.data ?? []).map((item) => 
+          item.id === updatedItem.id ? updatedItem : item
+        );
+      })
+
+      .addCase(DeleteFAQThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const deletedId = action.meta.arg; // autho mound after delete
+
+        // The ?? [] ensures that if state.data was somehow missing,
+        // it evaluates to an empty array instead of 'undefined'
+        state.data = state.data?.filter((item) => item.id !== deletedId) ?? [];
+      });
   },
 });
 

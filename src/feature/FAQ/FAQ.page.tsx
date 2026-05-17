@@ -11,68 +11,65 @@ import type { AppDispatch, RootState } from "@/store/store";
 import { GetAllFAQThunk } from "./redux/get-all-faq-data.thunk";
 import { Loading } from "@/shared/isLoading";
 import Error from "@/shared/isError";
-import { DialogBoxField } from "@/shared/dialog-box-(create)";
+import {
+  DialogBoxField,
+  type CreateFAQInitialValueType,
+} from "@/shared/dialog-box-(create)";
+import { EditDialogBoxField } from "@/shared/dialog-box-(edit)";
+import { AlertDialogField } from "@/shared/aleart-dialog";
+import { toast } from "sonner";
+import { DeleteFAQThunk } from "./redux/delete-FAQ.thunk";
 
 export type FAQType = "Buying" | "Selling" | "Services" | "TrustAndSafety";
 
-interface FaqItem {
-  question: string;
-  answer: string;
-}
-
-const faqs: FaqItem[] = [
-  {
-    question: "What is this platform?",
-    answer:
-      "Our platform provides a comprehensive admin dashboard for managing users, content, and system settings with real-time analytics.",
-  },
-  {
-    question: "How do I manage user roles?",
-    answer:
-      "Navigate to User Management, select a user, and use the role dropdown to assign roles like ADMIN, SELLER, or USER.",
-  },
-  {
-    question: "How secure is the platform?",
-    answer:
-      "We use JWT-based authentication, role-based access control, and encrypted data storage to ensure maximum security.",
-  },
-  {
-    question: "Can I customize the CMS content?",
-    answer:
-      "Yes. Head to the CMS section to edit Terms & Conditions, Privacy Policy, and other dynamic content pages.",
-  },
-  {
-    question: "How do I reset my password?",
-    answer:
-      "Go to Settings → Reset Password, enter your current password and your new password to update it securely.",
-  },
-  {
-    question: "Where can I view reports?",
-    answer:
-      "The Reporting section gives you a full overview of flagged users, activity logs, and system-generated reports.",
-  },
-];
-
+const initialValue: CreateFAQInitialValueType = {
+  question: "",
+  answer: "",
+  category: "Buying",
+};
 
 export function FAQPage() {
-  const filters: FAQType[] = ["Buying", "Selling", "Services", "TrustAndSafety"];
+  const filters: FAQType[] = [
+    "Buying",
+    "Selling",
+    "Services",
+    "TrustAndSafety",
+  ];
+
   const [activeFilter, setActiveFilter] = useState<FAQType>("Buying");
 
+
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, isError, data } = useSelector((state: RootState) => state.FAQ);
+  const { isLoading, isError, data } = useSelector(
+    (state: RootState) => state.FAQ,
+  );
 
   // Handle filter option
   const handleFilter = (filterValue: FAQType) => {
     setActiveFilter(filterValue);
   };
 
-
-  // Get data whenever activeFilter changes
+  // ---------------- Get data whenever activeFilter changes ----------
   useEffect(() => {
     (async () => {
       await dispatch(GetAllFAQThunk(activeFilter));
     })();
   }, [activeFilter, dispatch]);
+
+  // ---------------- Get data whenever activeFilter changes ----------
+
+  // ----------------- Delete FAQ data start -----------------
+
+  const deleteHandler = async (id: number) => {
+    try {
+      await dispatch(DeleteFAQThunk(id)).unwrap()
+      toast.success('Successfully delete data')
+    } catch (error) {
+      toast.error('Delete Failed !!!')
+    }
+  }
+
+  // ----------------- Delete FAQ data end -----------------
 
   if (isLoading) {
     return <Loading />;
@@ -94,7 +91,8 @@ export function FAQPage() {
             Frequently Asked <br className="hidden md:block" /> Questions
           </h2>
           <p className="text-[#525252] text-sm mt-2 leading-relaxed">
-            Everything you need to know about the platform. Can't find an answer?{" "}
+            Everything you need to know about the platform. Can't find an
+            answer?{" "}
             <span className="text-secondary-0 cursor-pointer hover:underline underline-offset-2 transition-all">
               Contact support.
             </span>
@@ -116,20 +114,23 @@ export function FAQPage() {
 
       {/* --- BOTTOM BODY --- */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-
         <div className="md:col-span-12">
-
+          
           {/* add button  */}
           <div className="float-end mb-4">
-            <DialogBoxField />
+            <DialogBoxField question={""} answer={""} category={"Buying"} />
           </div>
 
-        {/* Accordion  */}
-          <Accordion type="single" collapsible className="w-full flex flex-col gap-0">
-            {data?.map((faq, index) => (
+          {/* Accordion  */}
+          <Accordion
+            type="single"
+            collapsible
+            className="w-full flex flex-col gap-0"
+          >
+            {data?.map((faq) => (
               <AccordionItem
-                key={index}
-                value={`item-${index}`}
+                key={faq.id}
+                value={`item-${faq.id}`}
                 className="border-b border-card-bg-0 last:border-b-0"
               >
                 <AccordionTrigger
@@ -144,14 +145,35 @@ export function FAQPage() {
                 >
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-[#525252] text-sm leading-relaxed pb-5">
+                <AccordionContent className="text-[#d2d1d1] text-sm leading-relaxed pb-5">
                   {faq.answer}
+                </AccordionContent>
+                <AccordionContent className="flex pb-5 float-end space-x-2">
+                  
+                  {/* edit button */}
+                  <EditDialogBoxField
+                    id={faq.id}
+                    question={faq.question}
+                    answer={faq.answer}
+                    category={faq.category}
+                    text="Edit"
+                  />
+
+                  {/* delete button  */}
+                  <AlertDialogField
+                    id={faq.id}
+                    text={"Delete"}
+                    title={"Delete FAQ Entry?"}
+                    description={
+                      "Are you sure you want to delete this frequently asked question? This action cannot be undone, and it will be permanently removed from the public Help Center immediately."
+                    }
+                    confirmHandler={deleteHandler}
+                  />
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
         </div>
-
       </div>
     </section>
   );
