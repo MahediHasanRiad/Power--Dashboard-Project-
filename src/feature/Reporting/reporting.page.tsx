@@ -1,9 +1,14 @@
 import type { AppDispatch, RootState } from "@/store/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userReportThunk } from "./redux/user-report.thunk";
 import { Loading } from "@/shared/isLoading";
 import Error from "@/shared/isError";
+import { PaginationField } from "@/shared/pagination";
+import {
+  REASON_STYLES,
+  STATUS_STYLES,
+} from "../user-manager/utils/button-style";
 
 const reports = [
   {
@@ -36,46 +41,49 @@ const reports = [
   },
 ];
 
-// Define the structure for Reason Styles
-const REASON_STYLES: Record<string, string> = {
-  "FRAUD ATTEMPT": "bg-red-900/20 text-red-400 border-red-900/30",
-  "HARASSMENT": "bg-zinc-800/50 text-zinc-400 border-zinc-700/50",
-  "POLICY VIOLATION": "bg-zinc-800/50 text-zinc-400 border-zinc-700/50",
-  "default": "bg-zinc-900/50 text-zinc-500 border-zinc-800"
-};
-
-// Define the structure for Status Styles
-const STATUS_STYLES: Record<string, { dot: string; label: string }> = {
-  "Pending Review": { dot: "bg-[#F87171]", label: "Pending Review" },
-  "In Progress": { dot: "bg-[#FBBF24]", label: "In Progress" },
-  "Resolved": { dot: "bg-[#34D399]", label: "Resolved" },
-  "default": { dot: "bg-zinc-500", label: "Unknown" }
+const initialValue = {
+  page: 1,
+  page_size: 1,
 };
 
 export function UserReports() {
 
-  const dispatch = useDispatch<AppDispatch>()
-  const {isLoading, isError, data} = useSelector((state: RootState) => state.userReport)
-  
-console.log('get data', data)
+  const [currentPage, setCurrentPage] = useState(initialValue);
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoading, isError, data } = useSelector(
+    (state: RootState) => state.userReport,
+  );
+
+  console.log("get data", data);
 
   useEffect(() => {
-    ;(async () => {
-      await dispatch(userReportThunk()).unwrap()
-    })()
-  }, [])
+    (async () => {
+      await dispatch(
+        userReportThunk({
+          page: currentPage.page,
+          page_size: currentPage.page_size,
+        }),
+      ).unwrap();
+    })();
+  }, []);
 
-   if (isLoading) {
-      return (
-        <Loading />
-      );
-    }
-  
-    if (isError) {
-      return (
-        <Error isError={isError} />
-      );
-    }
+  const totalPages = data ? Math.ceil(data?.total / data?.page_size) : 0;
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage((prev) => ({
+      ...prev,
+      page: page,
+    }));
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <Error isError={isError} />;
+  }
 
   return (
     <section className="w-full p-8 font-sans">
@@ -91,20 +99,20 @@ console.log('get data', data)
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex gap-8 border-b border-[#1A1A1A] mb-8">
-        <button className="text-[#D4A017] text-xs font-bold uppercase tracking-widest pb-4 border-b-2 border-[#D4A017]">
+      <div className="flex gap-8 border-b border-card-bg-0 mb-8">
+        <button className="text-secondary-0 text-xs font-bold uppercase tracking-widest pb-4 border-b-2 border-secondary-0">
           User Reports
         </button>
       </div>
 
       {/* Main Table */}
-      <div className="bg-[#141414] rounded-2xl border border-[#1A1A1A] shadow-2xl overflow-x-auto md:overflow-visible">
+      <div className="bg-card-bg-0 rounded-2xl border border-card-bg-0 shadow-2xl overflow-x-auto md:overflow-visible">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-[#1A1A1A]/30 text-[10px] font-bold uppercase tracking-[0.15em] text-[#D4A017]/70">
+          <thead className="bg-card-bg-0/30 text-[10px] font-bold uppercase tracking-[0.15em] text-secondary-0/70">
             <tr>
               <th className="px-8 py-6">Report ID</th>
               <th className="px-4 py-6">Reporter</th>
-              <th className="px-4 py-6 text-[#D4A017]">
+              <th className="px-4 py-6 text-secondary-0">
                 Subject <br />{" "}
                 <span className="opacity-60 lowercase font-medium">
                   (provider)
@@ -118,7 +126,7 @@ console.log('get data', data)
           {/* all data with mapping  */}
           <tbody className="divide-y divide-card-bg-0">
             {reports.map((report) => {
-              const reasonClass=
+              const reasonClass =
                 REASON_STYLES[report.reason] || REASON_STYLES.default;
               const statusInfo =
                 STATUS_STYLES[report.status] || STATUS_STYLES.default;
@@ -126,7 +134,7 @@ console.log('get data', data)
               return (
                 <tr
                   key={report.id}
-                  className="hover:bg-[#1A1A1A]/20 transition-colors group" 
+                  className="hover:bg-card-bg-0/20 transition-colors group"
                 >
                   <td className="px-8 py-6 text-white font-medium text-sm">
                     {report.id}
@@ -154,9 +162,7 @@ console.log('get data', data)
                   </td>
                   <td className="px-4 py-6">
                     <div className="flex items-center gap-2">
-                      <span
-                        className={`size-1.5 rounded-full `}
-                      />
+                      <span className={`size-1.5 rounded-full `} />
                       <span className={`text-[#A3A3A3] text-sm ${statusInfo}`}>
                         {report.status}
                       </span>
@@ -174,6 +180,15 @@ console.log('get data', data)
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* pagination  */}
+      <div>
+        <PaginationField
+          currentPage={currentPage.page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </section>
   );

@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userReportThunk } from "./user-report.thunk";
-import type { userReportType } from "../report-type";
+import type { userReportSliceType } from "../report-type";
 
 
-const initialState: userReportType = {
+const initialState: userReportSliceType = {
   data: null,
   isLoading: false,
   isError: null,

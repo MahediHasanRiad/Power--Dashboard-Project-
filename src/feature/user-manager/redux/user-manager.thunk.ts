@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import type { roleType } from "../user-management-type";
+import type { roleType } from "../utils/user-management-type";
 
 
 

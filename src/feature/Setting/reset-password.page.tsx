@@ -9,11 +9,15 @@ import { restPasswordThunk } from "./redux/reset-password.thunk";
 import { toast } from "sonner";
 
 export interface initialValueType {
+  current_password: string;
   new_password: string;
+  confirm_password: string;
 }
 
 const initialValue: initialValueType = {
+  current_password: "",
   new_password: "",
+  confirm_password: "",
 };
 
 export default function ResetPassword() {
@@ -33,6 +37,7 @@ export default function ResetPassword() {
     if (!inputValue) return;
 
     try {
+      console.log(inputValue)
       await dispatch(restPasswordThunk(inputValue)).unwrap();
       toast.success("Successfully updated !!!");
       setInputValue(initialValue);
@@ -56,16 +61,33 @@ export default function ResetPassword() {
       <div className="flex-1 w-full space-y-8 max-w-4xl">
         <div className="space-y-2">
           <InputField
+            name="current_password"
+            label="Current Password"
+            placeholder="**************"
+            onChange={handleChange}
+            value={inputValue.current_password!}
+          />
+          <InputField
             name="new_password"
             label="New Password"
             placeholder="**************"
             onChange={handleChange}
             value={inputValue.new_password!}
           />
+          <InputField
+            name="confirm_password"
+            label="Confirm Password"
+            placeholder="**************"
+            onChange={handleChange}
+            value={inputValue.confirm_password!}
+          />
         </div>
 
         {/* Footer */}
-        <div className="pt-10 border-t border-card-bg-0 flex justify-end" onClick={handleSubmit}>
+        <div
+          className="pt-10 border-t border-card-bg-0 flex justify-end"
+          onClick={handleSubmit}
+        >
           <ButtonField text="Save Changes" />
         </div>
       </div>

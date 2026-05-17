@@ -10,7 +10,7 @@ import {
   initialPaginationValue,
   type paginationType,
   type roleType,
-} from "./user-management-type";
+} from "./utils/user-management-type";
 
 function UserManagerPage() {
   const [role, setRole] = useState<roleType>("ALL");

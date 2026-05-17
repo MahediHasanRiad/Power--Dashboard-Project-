@@ -17,6 +17,7 @@ function CMSpage() {
 
   // cash data
   const [currentPage, setCurrentPage] = useState<getInitialDataType>(initialState);
+
   const { data, isError, isLoading } = useSelector((state: RootState) => state.cms,);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -29,7 +30,8 @@ function CMSpage() {
     (async () => {
       try {
         await dispatch(GetAllCMSDataThunk()).unwrap();
-      } catch (error: any) {
+      } 
+      catch (error: any) {
         toast.error(error);
       }
     })();

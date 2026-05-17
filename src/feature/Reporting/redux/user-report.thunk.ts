@@ -1,17 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+interface userReportThunkType {
+  page: number;
+  page_size: number
+}
+
 export const userReportThunk = createAsyncThunk(
   "report/user-report",
-  async (_, { rejectWithValue }) => {
+  async ({page, page_size}: userReportThunkType, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("access-token");
-      const response = await axios.get("/api/reports/", {
+      const response = await axios.get(`/api/reports/?&page=${page}&page_size=${page_size}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('res-thunk', response.data)
       return response.data
     } 
     catch (error: unknown) {
