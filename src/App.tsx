@@ -4,10 +4,11 @@ import DashboardPage from "./feature/dashboard/dashboard.page";
 import { UserReports } from "./feature/Reporting/reporting.page";
 import { UpdateProfile } from "./feature/Setting/profile.page";
 import ResetPassword from "./feature/Setting/reset-password.page";
-import UserManagerPage from "./feature/user-manager/user-manager.page";
 import MainLayout from "./layout/main.layout";
 import { Routes, Route } from "react-router";
 import LoginPage from "./feature/login/login.page";
+import {FAQPage} from "./feature/FAQ/FAQ.page";
+import UserManagerPage from "./feature/user-manager/user-manager.page";
 
 function App() {
   useEffect(() => {}, []);
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/cms" element={<CMSpage />} />
                 <Route path="/user-reports" element={<UserReports />} />
                 <Route path="/update-profile" element={<UpdateProfile />} />
+                <Route path="/faq" element={<FAQPage />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
 
 

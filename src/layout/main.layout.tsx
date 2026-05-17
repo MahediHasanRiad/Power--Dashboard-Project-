@@ -8,6 +8,7 @@ import {
   Lock,
   LogOut,
   Settings,
+  TableOfContents,
   UserPen,
   X,
 } from "lucide-react";
@@ -35,6 +36,11 @@ function MainLayout({ children }: MainLayoutProps) {
           pageLink="user-management"
         />
         <DashboardMenuButton Icon={BookText} text="CMS" pageLink="cms" />
+        <DashboardMenuButton
+          Icon={TableOfContents }
+          text="FAQ"
+          pageLink="faq"
+        />
         <DashboardMenuButton
           Icon={Flag}
           text="Reporting"

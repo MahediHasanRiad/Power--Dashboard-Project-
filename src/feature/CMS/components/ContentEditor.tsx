@@ -5,6 +5,7 @@ import type { AppDispatch } from "@/store/store";
 import { cmsThunk } from "../redux/cms.thunk";
 import { toast } from "sonner";
 import type { CMSPageType } from "../cms-type";
+import ButtonField from "@/shared/button";
 
 interface ContentEditorProps {
   id: string;
@@ -104,12 +105,7 @@ function ContentEditor({ id, title, contentData }: ContentEditorProps) {
               </span>
             </div>
           </div>
-          <button
-            onClick={handleSubmit}
-            className="bg-secondary-0 hover:bg-[#B88A14] text-black text-[10px] px-1 py-1.5 md:text-sm font-bold md:px-8 md:py-3 rounded-lg transition-transform active:scale-95"
-          >
-            Publish Changes
-          </button>
+          <ButtonField handleSubmit={handleSubmit} text="Publish Changes" />
         </div>
 
         {/* The Editor Instance */}

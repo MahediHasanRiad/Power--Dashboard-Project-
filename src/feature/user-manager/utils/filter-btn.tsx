@@ -1,4 +1,4 @@
-import type { roleType } from "../utils/user-management-type";
+import type { roleType } from "./user-management-type";
 
 
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FilterBtn } from "./filter-btn";
+import { FilterBtn } from "../utils/filter-btn";
 import type { roleType } from "../utils/user-management-type";
 
 interface SearchFilterBarProps {

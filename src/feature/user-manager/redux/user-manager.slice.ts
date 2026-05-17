@@ -1,43 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userManagerThunk } from "./user-manager.thunk";
 import { updateStatusThunk } from "./updateStatus.thunk";
+import type { userManagerType } from "../utils/user-management-type";
 
-export type UserType = {
-  id: string;
-  fullname: string;
-  email: string;
-  isVerified: boolean;
-  accountStatus: "PENDING" | "ACTIVE" | "REJECTED";
-  roles: "ALL" | "USER" | "SELLER" | "SERVICE_PROVIDER";
-  displayname: string;
-  bio: string;
-  longitude: number;
-  latitude: number;
-  profile_image: string;
-  is_online: boolean;
-  raw_score: number;
-  trust_score: number;
 
-};
-
-export type getAllUserType = {
-  page: number;
-  page_size: number;
-  total: number;
-  users: UserType[] | null;
-};
-
-type statusType = {
-  user_id: string;
-  accountStatus: "PENDING" | "ACTIVE" | "REJECTED";
-};
-
-export type userManagerType = {
-  data: getAllUserType  | null;
-  accountStatus: statusType;
-  isLoading: boolean;
-  isError: any;
-};
 
 const initialState: userManagerType = {
   data: null,
