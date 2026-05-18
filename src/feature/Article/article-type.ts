@@ -1,9 +1,8 @@
-
 export interface initialArticleValueType {
-  title: string,
-  category: string,
-  image_url: string | File | null,
-  description: string
+  title: string;
+  category: string;
+  image_url: string | File | null;
+  description: string;
 }
 
 export interface articleType {
@@ -11,12 +10,20 @@ export interface articleType {
   title: string;
   description: string;
   category: string;
-  image_url: File | string | null;
+  image_url: string;
 }
 
 export interface articleSliceType {
-    article: articleType | null,
-    articles: articleType[] | null,
-    isLoading: boolean,
-    isError: any
+  article: articleType | null;
+  articles: articleType[] | null;
+  isLoading: boolean;
+  isError: any;
+}
+
+export interface ArticleCardType {
+  id: number;
+  img: string;
+  title: string;
+  category: string;
+  description: string;
 }

@@ -17,6 +17,12 @@ interface AlertDialogFieldType {
   title: string;
   description: string;
   confirmHandler: (id: number) => void;
+  btnNeed?: boolean;
+}
+
+interface AlertDialogFieldType {
+  open?: boolean;
+  onClose?: () => void;
 }
 
 export function AlertDialogField({
@@ -25,12 +31,17 @@ export function AlertDialogField({
   title,
   description,
   confirmHandler,
+  btnNeed = true,
+  open,
+  onClose,
 }: AlertDialogFieldType) {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">{text}</Button>
-      </AlertDialogTrigger>
+    <AlertDialog open={open} onOpenChange={onClose}>
+      {btnNeed && (
+        <AlertDialogTrigger asChild>
+          <Button variant="outline">{text}</Button>
+        </AlertDialogTrigger>
+      )}
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>

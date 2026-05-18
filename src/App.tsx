@@ -10,6 +10,7 @@ import LoginPage from "./feature/login/login.page";
 import {FAQPage} from "./feature/FAQ/FAQ.page";
 import UserManagerPage from "./feature/user-manager/user-manager.page";
 import ArticlePage from "./feature/Article/article.page";
+import ArticleListPage from "./feature/Article/article-list.page";
 
 function App() {
   useEffect(() => {}, []);
@@ -32,7 +33,7 @@ function App() {
                 <Route path="/update-profile" element={<UpdateProfile />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/create-article" element={<ArticlePage />} />
-                <Route path="/article-lists" element={<ArticlePage />} />
+                <Route path="/article-lists" element={<ArticleListPage />} />
 
 
                 <Route path="*" element={<div>Page Not Found</div>} />

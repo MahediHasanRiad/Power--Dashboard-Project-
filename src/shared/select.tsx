@@ -9,7 +9,7 @@ import {
 import type { FAQType } from "@/feature/FAQ/FAQ.page";
 
 interface SelectType {
-    selectHandler: (data: FAQType) => void;
+    selectHandler: (data: FAQType ) => void;
     defaultValue: FAQType
 }
 
