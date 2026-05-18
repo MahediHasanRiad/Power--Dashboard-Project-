@@ -60,7 +60,7 @@ function ContentEditor({
           name: "autosave",
           exec: () => {},
           template: () =>
-            `<span style="font-size: 9px; color: #525252; font-weight: bold; text-transform: uppercase; margin-left: 20px;">
+            `<span style="font-size: 9px; color: #525252; font-weight: bold; text-transform: uppercase; md:margin-left: 20px;">
               Auto-saved
             </span>`,
         },
@@ -94,11 +94,11 @@ function ContentEditor({
 
 
   return (
-    <div className="w-full p-8">
+    <div className="w-full md:p-8">
       <div className="mx-auto overflow-hidden rounded-2xl border border-card-bg-0 bg-card-bg-0">
         {/* Editor Header Section */}
         {topbar && (
-          <div className={`p-8 pb-4 flex justify-between items-center`}>
+          <div className={`md:p-8 pb-4 flex justify-between items-center`}>
             <div>
               <h1 className="text-white text-md md:text-3xl font-bold tracking-tight">
                 {title
@@ -120,7 +120,7 @@ function ContentEditor({
         )}
 
         {/* The Editor Instance */}
-        <div className="jodit-custom-wrapper px-4 pb-4">
+        <div className="jodit-custom-wrapper md:px-4 pb-4">
           <JoditEditor
             ref={editor}
             value={content}

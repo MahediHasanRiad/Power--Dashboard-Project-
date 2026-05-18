@@ -20,7 +20,7 @@ function ArticlePage() {
     ...initialValue,
     image_url: null as File | null,
   });
-
+// console.log(inputValue)
   const dispatch = useDispatch<AppDispatch>();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +49,7 @@ function ArticlePage() {
   // handle submit form
   const handleSubmit = async (data: initialArticleValueType) => {
     try {
+      console.log(data)
       const formData = new FormData();
       if (data.title) formData.append("title", data.title);
       if (data.category) formData.append("category", data.category);

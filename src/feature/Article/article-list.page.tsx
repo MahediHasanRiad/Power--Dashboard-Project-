@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import img from "../../../public/profile.png";
 import ArticleCard from "./components/article-card";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store/store";
@@ -9,36 +8,31 @@ import { Loading } from "@/shared/isLoading";
 import Error from "@/shared/isError";
 
 function ArticleListPage() {
-
-  const dispatch = useDispatch<AppDispatch>()
-  const {isError, isLoading, articles} = useSelector((state: RootState) => state.article )
+  const dispatch = useDispatch<AppDispatch>();
+  const { isError, isLoading, articles } = useSelector(
+    (state: RootState) => state.article,
+  );
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       try {
-        await dispatch(getAllArticleThunk()).unwrap()
-      } 
-      catch (error) {
-        toast.error('Field to Load Articles')
-        console.error(error)
+        await dispatch(getAllArticleThunk()).unwrap();
+      } catch (error) {
+        toast.error("Field to Load Articles");
+        console.error(error);
       }
-      
-    })()
-  }, [])
+    })();
+  }, []);
 
-  console.log('articles', articles)
+  console.log("articles", articles);
 
   if (isLoading) {
-      return (
-        <Loading />
-      );
-    }
-  
-    if (isError) {
-      return (
-        <Error isError={isError} />
-      );
-    }
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <Error isError={isError} />;
+  }
 
   return (
     <section>
@@ -48,15 +42,15 @@ function ArticleListPage() {
 
       {/* card  */}
       <section className="grid lg:grid-cols-4 md:grid-cols-3 m-3">
-        {articles?.map(article => (
+        {articles?.map((article) => (
           <ArticleCard
-          key={article.id}
-          id={article.id}
-          img={article.image_url}
-          title={article.title}
-          category={article.category}
-          description={article.description}
-        />
+            key={article.id}
+            id={article.id}
+            img={article.image_url}
+            title={article.title}
+            category={article.category}
+            description={article.description}
+          />
         ))}
       </section>
     </section>

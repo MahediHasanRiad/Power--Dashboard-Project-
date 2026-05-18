@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createArticleThunk } from "./create-article.thunk";
 import type { articleSliceType } from "../article-type";
 import { getAllArticleThunk } from "./get-all-article.thunk";
+import { deleteArticleThunk } from "./delete-article.thunk";
+import { updateArticleThunk } from "./update-article.thunk";
 
 const initialState: articleSliceType = {
   article: null,
@@ -45,6 +47,25 @@ const articleSlice = createSlice({
       .addCase(createArticleThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload as string;
+      })
+
+      // autho mound after delete
+      .addCase(deleteArticleThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // const deletedId = action.meta.arg; // autho mound after delete
+        const deletedId = action.payload; // autho mound after delete
+        state.articles =
+          state?.articles?.filter((item) => item.id !== deletedId) ?? [];
+      })
+
+      // 🚀 HANDLE UPDATE RE-COMPOUND LOCALLY:
+      .addCase(updateArticleThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+        const updatedItem = action.payload;
+        state.articles = (state.articles ?? []).map((item) =>
+          item.id === updatedItem.id ? updatedItem : item,
+        );
       });
   },
 });

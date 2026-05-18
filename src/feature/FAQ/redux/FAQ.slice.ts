@@ -48,9 +48,6 @@ const FAQSlice = createSlice({
       // HANDLE CREATE RE-COMPOUND LOCALLY:
       .addCase(createFAQthunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        
-        // Take your existing array, append the newly created item returned from your backend API,
-        // and fall back to a safe empty array if 'state.data' was somehow uninitialized.
         state.data = [...(state.data ?? []), action.payload];
       })
 
@@ -59,20 +56,15 @@ const FAQSlice = createSlice({
         state.isLoading = false;
         
         const updatedItem = action.payload; 
-
-        // Go through the current data list array. 
-        // If the ID matches, swap it with the new updated item. Otherwise, keep the item as-is.
         state.data = (state.data ?? []).map((item) => 
           item.id === updatedItem.id ? updatedItem : item
         );
       })
 
+      // auto mound after delete
       .addCase(DeleteFAQThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         const deletedId = action.meta.arg; // autho mound after delete
-
-        // The ?? [] ensures that if state.data was somehow missing,
-        // it evaluates to an empty array instead of 'undefined'
         state.data = state.data?.filter((item) => item.id !== deletedId) ?? [];
       });
   },
