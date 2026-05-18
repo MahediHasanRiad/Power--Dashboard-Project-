@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo, useCallback, useEffect } from "react"; // 👈 Added useEffect
+import { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import JoditEditor from "jodit-react";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store/store";
@@ -11,9 +11,17 @@ interface ContentEditorProps {
   id: string;
   title: CMSPageType;
   contentData: string;
+  topbar?: boolean;
+  getData?: (data: string) => void;
 }
 
-function ContentEditor({ id, title, contentData }: ContentEditorProps) {
+function ContentEditor({
+  id,
+  title,
+  contentData,
+  topbar = true,
+  getData,
+}: ContentEditorProps) {
   const editor = useRef(null);
 
   const [content, setContent] = useState(contentData || "");
@@ -62,8 +70,9 @@ function ContentEditor({ id, title, contentData }: ContentEditorProps) {
   );
 
   const handleBlur = useCallback((newContent: string) => {
-    setContent(newContent);
-  }, []);
+  setContent(newContent);
+  getData?.(newContent); // pass data in create article
+}, [getData]);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -72,8 +81,7 @@ function ContentEditor({ id, title, contentData }: ContentEditorProps) {
     try {
       await dispatch(cmsThunk({ id, title, content })).unwrap();
       toast.success("Changes saved successfully!");
-    } 
-    catch (error: any) {
+    } catch (error: any) {
       const errorMessage =
         error?.message ||
         error?.error ||
@@ -83,36 +91,39 @@ function ContentEditor({ id, title, contentData }: ContentEditorProps) {
     }
   };
 
+
+
   return (
-    <div className="w-full min-h-screen p-8">
-      <div className="mx-auto overflow-hidden rounded-2xl border border-card-bg-0 bg-[#111111]">
+    <div className="w-full p-8">
+      <div className="mx-auto overflow-hidden rounded-2xl border border-card-bg-0 bg-card-bg-0">
         {/* Editor Header Section */}
-        <div className="p-8 pb-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-white text-md md:text-3xl font-bold tracking-tight">
-              {title
-                .replace(/_/g, " ")
-                .toLowerCase()
-                .split(" ")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ")}{" "}
-              
-            </h1>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="size-1.5 rounded-full bg-[#10B981]" />
-              <span className="text-secondary-text-0 text-[8px] md:text-xs font-medium">
-                Live on production environment
-              </span>
+        {topbar && (
+          <div className={`p-8 pb-4 flex justify-between items-center`}>
+            <div>
+              <h1 className="text-white text-md md:text-3xl font-bold tracking-tight">
+                {title
+                  .replace(/_/g, " ")
+                  .toLowerCase()
+                  .split(" ")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ")}{" "}
+              </h1>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="size-1.5 rounded-full bg-[#10B981]" />
+                <span className="text-secondary-text-0 text-[8px] md:text-xs font-medium">
+                  Live on production environment
+                </span>
+              </div>
             </div>
+            <ButtonField handleSubmit={handleSubmit} text="Publish Changes" />
           </div>
-          <ButtonField handleSubmit={handleSubmit} text="Publish Changes" />
-        </div>
+        )}
 
         {/* The Editor Instance */}
         <div className="jodit-custom-wrapper px-4 pb-4">
           <JoditEditor
             ref={editor}
-            value={content} 
+            value={content}
             config={config}
             onBlur={handleBlur}
           />

@@ -9,6 +9,7 @@ import { Routes, Route } from "react-router";
 import LoginPage from "./feature/login/login.page";
 import {FAQPage} from "./feature/FAQ/FAQ.page";
 import UserManagerPage from "./feature/user-manager/user-manager.page";
+import ArticlePage from "./feature/Article/article.page";
 
 function App() {
   useEffect(() => {}, []);
@@ -27,9 +28,11 @@ function App() {
                 <Route path="/user-management" element={<UserManagerPage />} />
                 <Route path="/cms" element={<CMSpage />} />
                 <Route path="/user-reports" element={<UserReports />} />
-                <Route path="/update-profile" element={<UpdateProfile />} />
                 <Route path="/faq" element={<FAQPage />} />
+                <Route path="/update-profile" element={<UpdateProfile />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/create-article" element={<ArticlePage />} />
+                <Route path="/article-lists" element={<ArticlePage />} />
 
 
                 <Route path="*" element={<div>Page Not Found</div>} />

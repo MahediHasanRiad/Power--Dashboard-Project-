@@ -1,17 +1,20 @@
+import type { HTMLInputTypeAttribute } from "react";
 
 interface InputType {
   name: string;
   label: string;
-  placeholder: string;
+  type?: HTMLInputTypeAttribute;
+  placeholder?: string;
   readonly?: boolean;
-  value: string;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function InputField({
   name,
   label,
-  placeholder,
+  type = 'text',
+  placeholder = '',
   readonly = false,
   onChange,
   value,
@@ -19,16 +22,16 @@ export function InputField({
   
 
   return (
-    <section className="my-2">
+    <section className="my-4">
       <label
-        className={`text-[10px] font-bold uppercase tracking-[0.2em] ${readonly == true ? "text-gray-700" : "text-secondary-text-0"}`}
+        className={`text-[10px] md:text-sm font-bold uppercase tracking-[0.2em] ${readonly == true ? "text-gray-700" : "text-secondary-text-0"}`}
         htmlFor={label}
       >
         {label}
       </label>
       <input
         id={label}
-        type="text"
+        type={type}
         name={name}
         value={value}
         onChange={onChange}

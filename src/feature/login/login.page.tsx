@@ -1,6 +1,6 @@
 import { Lock } from "lucide-react";
 import ButtonField from "../Setting/components/button-field";
-import { InputField } from "../Setting/components/input-field";
+import { InputField } from "../../shared/input-field";
 import TopTitle from "../Setting/components/top-title";
 import { useState, type ChangeEvent } from "react";
 import axios from "axios";

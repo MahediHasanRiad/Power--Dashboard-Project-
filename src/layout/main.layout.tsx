@@ -4,9 +4,12 @@ import NavbarField from "./components/nav";
 import {
   BookText,
   Flag,
+  FolderPlus,
   LayoutGrid,
   Lock,
   LogOut,
+  Newspaper,
+  ScrollText,
   Settings,
   TableOfContents,
   UserPen,
@@ -52,6 +55,14 @@ function MainLayout({ children }: MainLayoutProps) {
           subItems={[
             { text: "User Profile", Icon: UserPen, pageLink: "update-profile" },
             { text: "Reset Password", Icon: Lock, pageLink: "reset-password" },
+          ]}
+        />
+        <DashboardDropdownMenu
+          Icon={Newspaper  }
+          text="Article"
+          subItems={[
+            { text: "Create An Article", Icon: FolderPlus, pageLink: "create-article" },
+            { text: "Article List", Icon: ScrollText , pageLink: "article-lists" },
           ]}
         />
       </div>

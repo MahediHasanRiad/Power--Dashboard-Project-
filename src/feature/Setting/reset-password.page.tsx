@@ -1,6 +1,6 @@
 import { Lock } from "lucide-react";
 import TopTitle from "./components/top-title";
-import { InputField } from "./components/input-field";
+import { InputField } from "../../shared/input-field";
 import ButtonField from "./components/button-field";
 import { useState, type ChangeEvent } from "react";
 import type { AppDispatch } from "@/store/store";

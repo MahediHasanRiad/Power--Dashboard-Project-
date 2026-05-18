@@ -38,7 +38,7 @@ export function DashboardDropdownMenu({ Icon, text, subItems = [] }: MenuType) {
             <span className="text-lg">{text}</span>
           </div>
           <ChevronDown 
-            className={`size-4 transition-transform ${isOpen ? "rotate-180" : ""}`} 
+            className={`size-4 float-end transition-transform ${isOpen ? "rotate-180" : ""}`} 
           />
         </div>
       </div>

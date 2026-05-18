@@ -5,6 +5,9 @@ import userReportReducer from '../feature/Reporting/redux/user-report.slice'
 import cmsReducer from '../feature/CMS/redux/CMS.slice'
 import userManagerReducer from '../feature/user-manager/redux/user-manager.slice'
 import FAQReducer from '../feature/FAQ/redux/FAQ.slice'
+import ArticleReducer from '../feature/Article/redux/article.slice'
+
+
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +16,8 @@ export const store = configureStore({
     userReport: userReportReducer,
     cms: cmsReducer,
     userManager: userManagerReducer,
-    FAQ: FAQReducer
+    FAQ: FAQReducer,
+    article: ArticleReducer
   }
 })
 

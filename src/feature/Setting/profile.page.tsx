@@ -2,7 +2,7 @@ import { User } from "lucide-react";
 import ButtonField from "./components/button-field";
 import EditProfile from "./components/Edit-Profile";
 import TopTitle from "./components/top-title";
-import { InputField } from "./components/input-field";
+import { InputField } from "../../shared/input-field";
 import { useState, type ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store/store";

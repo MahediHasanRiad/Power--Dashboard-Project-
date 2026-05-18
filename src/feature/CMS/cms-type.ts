@@ -4,7 +4,7 @@ export interface ButtonDataItem {
   description: string;
 }
 
-export type CMSPageType = 'TERMS_CONDITION' | 'ABOUT_US' | 'PRIVACY_POLICY'
+export type CMSPageType = 'TERMS_CONDITION' | 'ABOUT_US' | 'PRIVACY_POLICY' | string
 
 export interface getDataType {
   id: string;
