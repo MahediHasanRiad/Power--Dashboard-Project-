@@ -1,22 +1,28 @@
+import type { MessageReportsResponseType } from "./message-report-type";
+
 export interface userReportType {
-  reason: "FRAUD_ATTEMPT" | "HARASSMENT" | "POLICY VIOLATION" | string;
+  id: number;
+  reason: string;
   description: string;
-  status: "Pending Review" | "In Progress" | "Resolved";
-  adminAction: "string";
-  reporterId: string;
-  reportedUserId: string;
+  status: string;
+  adminAction: string; 
+  
+  reporterId: number;
+  reportedUserId: number;
   reporter: {
-    id: string;
+    id: number;
     fullname: string;
     displayname: string;
     profile_image: string;
   };
   reportedUser: {
-    id: string;
+    id: number;
     fullname: string;
     displayname: string;
     profile_image: string;
   };
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface getUserReportType {
@@ -28,6 +34,46 @@ export interface getUserReportType {
 
 export interface userReportSliceType {
   data: getUserReportType | null;
+  messageReport: MessageReportsResponseType | null;
   isLoading: boolean;
   isError: any;
+}
+
+
+// report-type.ts
+export type ReportStatus = "PENDING" | "RESOLVED" | "BLOCKED" | "ESCALATED"
+
+export type ReportReason =
+  | "FRAUD_ATTEMPT"
+  | "SPAM"
+  | "HARASSMENT"
+  | "INAPPROPRIATE_CONTENT"
+  | string
+
+export type ReportUser = {
+  id: number
+  fullname: string
+  displayname: string
+  profile_image: string
+}
+
+export type ReportType = {
+  id: number
+  reason: ReportReason
+  description: string
+  status: ReportStatus
+  adminAction: string
+  reporterId: number
+  reportedUserId: number
+  reporter: ReportUser
+  reportedUser: ReportUser
+  createdAt: string
+  updatedAt: string
+}
+
+export type ReportsResponse = {
+  total: number
+  page: number
+  page_size: number
+  reports: ReportType[]
 }

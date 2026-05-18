@@ -11,5 +11,5 @@ export const STATUS_STYLES: Record<string, { dot: string; label: string }> = {
   "Pending Review": { dot: "bg-[#F87171]", label: "Pending Review" },
   "In Progress": { dot: "bg-[#FBBF24]", label: "In Progress" },
   Resolved: { dot: "bg-[#34D399]", label: "Resolved" },
-  default: { dot: "bg-zinc-500", label: "Unknown" },
+  default: { dot: "bg-[#34D399]", label: "Unknown" },
 };
