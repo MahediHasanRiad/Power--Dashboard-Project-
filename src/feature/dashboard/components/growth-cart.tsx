@@ -15,14 +15,13 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-// Define the expected shape of the data item
 interface GrowthDataItem {
   label: string
   count: number
 }
 
 interface UserActivityChartProps {
-  growth: GrowthDataItem[] | null | undefined // Handle null/undefined values safely
+  growth: GrowthDataItem[] | null | undefined 
 }
 
 const chartConfig = {
@@ -33,7 +32,6 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function UserGrowthChart({ growth }: UserActivityChartProps) {
-  // 1. Guard Clause: If data is null or undefined, render a safe loading/empty state
   if (!growth) {
     return (
       <Card className="bg-card-bg-0 border-none text-white">
@@ -59,7 +57,6 @@ export function UserGrowthChart({ growth }: UserActivityChartProps) {
         </div>
       </CardHeader>
       <CardContent>
-        {/* 2. Fallback Array: Just in case an unexpected value slips through, default to empty array */}
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <BarChart accessibilityLayer data={growth ?? []} margin={{ left: -20 }}>
             <CartesianGrid vertical={false} stroke="#1A1A1A" />
@@ -76,7 +73,13 @@ export function UserGrowthChart({ growth }: UserActivityChartProps) {
               className="text-[10px]"
               allowDecimals={false}
             />
-            <ChartTooltip content={<ChartTooltipContent />} />
+            
+            {/* ── FIX: Added the cursor property here ── */}
+            <ChartTooltip 
+              cursor={{ fill: '#ffffff', opacity: 0.08 }} 
+              content={<ChartTooltipContent />} 
+            />
+            
             <Bar
               dataKey="count"
               fill="var(--color-count)"
