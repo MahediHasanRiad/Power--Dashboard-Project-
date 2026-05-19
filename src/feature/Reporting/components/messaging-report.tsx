@@ -8,7 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store/store";
 import { GetAllMessageReportThunk } from "../redux/get-all-message-report.thunk";
 import { toast } from "sonner";
-import { MessagingReportDetailsDialog, type resolvedType } from "../utils/messaging-report-details-bialog";
+import {
+  MessagingReportDetailsDialog,
+  type resolvedType,
+} from "../utils/messaging-report-details-bialog";
 import { ResolvedMessageReportThunk } from "../redux/resolve-message-reports.thunk";
 
 type ReportItemType = any;
@@ -39,24 +42,23 @@ function MessagingReport() {
 
   // resolved item
   const handleResolve = async (actionType: resolvedType) => {
-  if (!selectedReport) return;
-  
-  try {
-    // Corrected object key mapping ('id') to match Thunk signature
-    await dispatch(
-      ResolvedMessageReportThunk({ 
-        id: selectedReport.id, 
-        selectedResolve: actionType 
-      })
-    ).unwrap();
-    
-    toast.success("Successfully Resolved !!!");
-    setSelectedReport(null); // Optional: Close dialog on success
-  } catch (error: any) {
-    console.error(error);
-    toast.error("Failed to resolve message report");
-  }
-};
+    if (!selectedReport) return;
+
+    try {
+      await dispatch(
+        ResolvedMessageReportThunk({
+          id: selectedReport.id,
+          selectedResolve: actionType,
+        }),
+      ).unwrap();
+
+      toast.success("Successfully Resolved !!!");
+      setSelectedReport(null);
+    } catch (error: any) {
+      console.error(error);
+      toast.error("Failed to resolve message report");
+    }
+  };
 
   return (
     <div className="bg-card-bg-0 rounded-2xl border border-card-bg-0 shadow-2xl overflow-x-auto md:overflow-visible">
@@ -182,20 +184,20 @@ function MessagingReport() {
 
       {/* Render exactly ONE dialog outside the loop block */}
       {selectedReport && (
-  <MessagingReportDetailsDialog
-    open={!!selectedReport}
-    onClose={() => setSelectedReport(null)}
-    details={{
-      reason: selectedReport.reason,
-      description: selectedReport.description,
-      image: selectedReport.image_url!,
-      reportedUserId: selectedReport.reportedUserId,
-    }}
-    onSuspend={() => handleSuspend(selectedReport.id)}
-    // Pass the function reference directly, or receive the variable in an explicit callback:
-    onResolve={(actionType) => handleResolve(actionType)} 
-  />
-)}
+        <MessagingReportDetailsDialog
+          open={!!selectedReport}
+          onClose={() => setSelectedReport(null)}
+          details={{
+            reason: selectedReport.reason,
+            description: selectedReport.description,
+            image: selectedReport.image_url!,
+            reportedUserId: selectedReport.reportedUserId,
+          }}
+          onSuspend={() => handleSuspend(selectedReport.id)}
+          // Pass the function reference directly, or receive the variable in an explicit callback:
+          onResolve={(actionType) => handleResolve(actionType)}
+        />
+      )}
     </div>
   );
 }

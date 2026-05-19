@@ -17,7 +17,7 @@ interface MessagingReportDetailsDialogProps {
   details: ReportDetails;
   altText?: string;
   onSuspend?: () => void;
-  onResolve?: (reason: any) => void; // ← single string now
+  onResolve?: (reason: any) => void; 
 }
 export type resolvedType = 'ACTIVE' | 'PENDING' | 'DEACTIVE' | 'SUSPEND' | 'DELETE' | 'DISMISS_REPORT'
 const RESOLVE_OPTIONS = [
