@@ -24,7 +24,7 @@ export function UserReports() {
   const [currentTab, setCurrentTab] = useState<currentTabType>("user-report");
 
   const { isLoading, isError, data } = useSelector(
-    (state: RootState) => state.userReport,
+    (state: RootState) => state.report,
   );
   const dispatch = useDispatch<AppDispatch>();
 
@@ -35,7 +35,7 @@ export function UserReports() {
         page_size: currentPage.page_size,
       }),
     );
-  }, [currentPage.page, currentPage.page_size, dispatch]);
+  }, [currentPage.page, currentPage.page_size]);
 
   const totalPages = data ? Math.ceil(data.total / data.page_size) : 0;
 
@@ -50,7 +50,7 @@ export function UserReports() {
     setCurrentTab(data);
   };
 
-  if (isLoading) return <Loading />;
+  if (isLoading && !data) return <Loading />;  
   if (isError) return <Error isError={isError} />;
 
   // Safely fallback to an empty array if data isn't loaded yet
@@ -86,6 +86,7 @@ export function UserReports() {
       </div>
 
       {/* Main Table */}
+        {isLoading && <Loading />}
       {currentTab === 'user-report' && <UserReportField ArticleData={ArticleData} />}
       {currentTab === 'message-history' && <MessagingReport />}
 

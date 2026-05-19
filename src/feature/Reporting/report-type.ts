@@ -32,7 +32,7 @@ export interface getUserReportType {
   reports: userReportType[] | []
 }
 
-export interface userReportSliceType {
+export interface reportSliceType {
   data: getUserReportType | null;
   messageReport: MessageReportsResponseType | null;
   isLoading: boolean;
