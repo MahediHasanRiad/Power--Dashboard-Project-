@@ -5,7 +5,7 @@ export interface userReportType {
   reason: string;
   description: string;
   status: string;
-  adminAction: string; 
+  adminAction: string | null; 
   
   reporterId: number;
   reportedUserId: number;

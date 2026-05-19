@@ -1,24 +1,25 @@
 import type { AppDispatch, RootState } from "@/store/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userReportThunk } from "./redux/user-report.thunk";
+import { userReportThunk } from "../redux/user-report.thunk";
 import { Loading } from "@/shared/isLoading";
 import Error from "@/shared/isError";
 import { PaginationField } from "@/shared/pagination";
-import { ArticleData } from "../Reporting/reporting-data";
-import UserReportField from "./components/user-report";
-import type { userReportType } from "./report-type";
-import MessagingReport from "./components/messaging-report";
+import UserReportField from "../components/user-report";
+import type { userReportType } from "../report-type";
+import MessagingReport from "./messaging-report.page";
+import { userReportData } from "../reporting-data";
+
 
 const initialValue = {
   page: 1,
-  page_size: 10, // Increased page size to a standard default value
+  page_size: 10,
 };
 
 interface UserReportFieldProps {
-  ArticleData: userReportType[];
+  userReportData: userReportType[];
 }
-type currentTabType = "user-report" | "message-history"
+type currentTabType = "user-report" | "message-history";
 export function UserReports() {
   const [currentPage, setCurrentPage] = useState(initialValue);
   const [currentTab, setCurrentTab] = useState<currentTabType>("user-report");
@@ -46,18 +47,17 @@ export function UserReports() {
     }));
   };
 
-  const userTabHandler = (data:currentTabType ) => {
+  const userTabHandler = (data: currentTabType) => {
     setCurrentTab(data);
   };
 
-  if (isLoading && !data) return <Loading />;  
+  if (isLoading && !data) return <Loading />;
   if (isError) return <Error isError={isError} />;
 
-  // Safely fallback to an empty array if data isn't loaded yet
-  const reportList = data?.reports || [];
+  console.log("data", data);
 
   return (
-    <section className="w-full p-8 font-sans">
+    <section className="w-full md:p-8 font-sans">
       {/* Header */}
       <div className="mb-10">
         <h1 className="text-white text-4xl font-bold tracking-tight mb-3">
@@ -86,9 +86,11 @@ export function UserReports() {
       </div>
 
       {/* Main Table */}
-        {isLoading && <Loading />}
-      {currentTab === 'user-report' && <UserReportField ArticleData={ArticleData} />}
-      {currentTab === 'message-history' && <MessagingReport />}
+      {isLoading && <Loading />}
+      {currentTab === "user-report" && data && (
+        <UserReportField userReportData={userReportData} />
+      )}
+      {currentTab === "message-history" && <MessagingReport />}
 
       {/* Pagination */}
       <div className="mt-6">

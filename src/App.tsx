@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import CMSpage from "./feature/CMS/CMS.page";
 import DashboardPage from "./feature/dashboard/dashboard.page";
-import { UserReports } from "./feature/Reporting/reporting.page";
 import { UpdateProfile } from "./feature/Setting/profile.page";
 import ResetPassword from "./feature/Setting/reset-password.page";
 import MainLayout from "./layout/main.layout";
@@ -11,6 +10,10 @@ import {FAQPage} from "./feature/FAQ/FAQ.page";
 import UserManagerPage from "./feature/user-manager/user-manager.page";
 import ArticlePage from "./feature/Article/article.page";
 import ArticleListPage from "./feature/Article/article-list.page";
+import { UserReports } from "./feature/Reporting/page/reporting.page";
+import ReportMessagePage from "./feature/Reporting/components/message.page.(extra)";
+
+
 
 
 

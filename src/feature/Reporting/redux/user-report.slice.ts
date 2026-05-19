@@ -3,6 +3,7 @@ import { userReportThunk } from "./user-report.thunk";
 import type { reportSliceType } from "../report-type";
 import { GetAllMessageReportThunk } from "./get-all-message-report.thunk";
 import { ResolvedMessageReportThunk } from "./resolve-message-reports.thunk";
+import { updateUserReportThunk } from "./update-user-report-status.thunk";
 
 const initialState: reportSliceType = {
   data: null,
@@ -49,20 +50,30 @@ export const reportSlice = createSlice({
       })
 
 
+      // auto render when update
       builder.addCase(ResolvedMessageReportThunk.fulfilled, (state, action) => {
-      // The thunk payload should contain the updated report details returned from your API
-      // Or you can use the meta data passed into the thunk call:
       const reportId = action.meta.arg.id;
       const newStatus = action.meta.arg.selectedResolve;
 
-      // Find the specific report inside your existing state array
       const targetReport = state.messageReport?.reports.find(
         (report: any) => report.id === reportId
       );
 
       if (targetReport) {
-        // Depending on your app logic, update the status field 
-        // or remove it from the list if it shouldn't show anymore
+        targetReport.status = newStatus; 
+      }})
+
+
+      // auto render when update
+      builder.addCase(updateUserReportThunk.fulfilled, (state, action) => {
+      const reportId = action.meta.arg.id;
+      const newStatus = action.meta.arg.status;
+
+      const targetReport = state.data?.reports.find(
+        (report: any) => report.id === reportId
+      );
+
+      if (targetReport) {
         targetReport.status = newStatus; 
       }})
 
